@@ -27,7 +27,8 @@ encrypt_file key_file file file_to_save =
             n = read n_str :: Integer
             int_block_content = process_contents contents
             encrypted = map show (encrypt_decrypt_integers int_block_content key_int n)
-        writeStringsToFile file_to_save encrypted
+
+        write_strings_to_file file_to_save encrypted
         
         
 decrypt_file :: String -> String -> String -> IO()
@@ -45,7 +46,7 @@ decrypt_file key_file file file_to_save =
 
 
 write_strings_to_file :: String -> [String] -> IO ()
-writeStringsToFile file strings = do
+write_strings_to_file file strings = do
     handle <- openFile file WriteMode
     mapM_ (hPutStrLn handle) strings
     hClose handle
@@ -57,3 +58,9 @@ process_contents contents = map string_to_int $ string_blocks contents
 
 encrypt_decrypt_integers :: [Integer] -> Integer -> Integer -> [Integer]
 encrypt_decrypt_integers msgs key n = [pow_mod msg key n | msg <- msgs]
+    
+
+
+-- write_to_file :: [String] -> IO ()
+-- write_to_file strings = 
+--     
