@@ -41,11 +41,10 @@ decrypt_file key_file file file_to_save =
             int_block_content = map read (lines contents)
             decrypted = encrypt_decrypt_integers int_block_content key_int n
             decrypted_str = map int_to_string decrypted
-        writeStringsToFile file_to_save decrypted_str
         writeFile file_to_save (concat decrypted_str)
 
 
-writeStringsToFile :: String -> [String] -> IO ()
+write_strings_to_file :: String -> [String] -> IO ()
 writeStringsToFile file strings = do
     handle <- openFile file WriteMode
     mapM_ (hPutStrLn handle) strings
