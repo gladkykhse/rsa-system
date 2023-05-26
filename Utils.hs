@@ -1,5 +1,5 @@
 module Utils where
-
+import Data.Char
 
 extended_gcd :: Integer -> Integer -> (Integer, Integer, Integer)
 extended_gcd a b
@@ -39,3 +39,18 @@ check_rest_exps n a exp
         if (pow_mod a exp n) == (n - 1)
             then True
         else check_rest_exps n a (exp * 2)
+
+
+string_to_int :: String -> Integer
+string_to_int s = foldr (\c a -> 256 * a + (fromIntegral (ord c))) 0 s
+
+
+int_to_string :: Integer -> String
+int_to_string 0 = ""
+int_to_string n = chr (fromIntegral (n `mod` 256)) : int_to_string (n `div` 256)
+
+
+string_blocks :: String -> [String]
+string_blocks [] = []
+string_blocks str = chunk : string_blocks rest
+    where (chunk, rest) = splitAt 128 str

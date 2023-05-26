@@ -6,15 +6,12 @@ import RSA
 
 
 run_with_args :: [String] -> IO()
-run_with_args l
-    | head l == "-gen-keys" =
-        create_keys
-    | head l == "-encrypt" ||  head l == "-decrypt" =
-        let [_, pk_file, file_to_encrypt, file_to_save] = l
-        in
-            encrypt_decrypt_file pk_file file_to_encrypt file_to_save
-    | otherwise =
-        error "Invalid argument. Possible options: -gen-keys, -encrypt, -decrypt"
+run_with_args ["-gen-keys"] = create_keys
+run_with_args [l, pk_file, file_to_encrypt, file_to_save]
+    | l == "-encrypt" || l == "-decrypt" =
+        encrypt_file pk_file file_to_encrypt file_to_save
+run_with_args _ =
+    error "Invalid argument. Possible options: -gen-keys, -encrypt, -decrypt"
 
 
 main :: IO()
